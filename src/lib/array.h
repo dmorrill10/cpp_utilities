@@ -1,16 +1,26 @@
 #pragma once
 
 #include <cassert>
+#include <functional>
 
 namespace Utilities {
 namespace Array {
 template <class T, class Size = unsigned int>
 class Array {
  public:
-  Array(T* data, Size capacity) : data_(data), capacity_(capacity) {
+  Array(T*&& data, Size capacity, std::function<void(T**)>&& deleteData)
+      : data_(std::move(data)),
+        capacity_(capacity),
+        deleteData_(std::move(deleteData)) {
     assert(data_);
     assert(capacity_ > 0);
   }
+  Array(T* data, Size capacity)
+      : data_(data), capacity_(capacity), deleteData_([](T**) {}) {
+    assert(data_);
+    assert(capacity_ > 0);
+  }
+  virtual ~Array() { deleteData_(&data_); }
 
   T& operator[](Size index) {
     assert(index < capacity_);
@@ -41,9 +51,10 @@ class Array {
   Size size() const { return capacity_; }
   Size length() const { return capacity_; }
 
- private:
+ protected:
   T* data_;
   Size capacity_;
+  std::function<void(T**)> deleteData_;
 };
 }
 }
