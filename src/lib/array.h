@@ -1,18 +1,22 @@
 #pragma once
 
-template <class T>
+#include <cassert>
+
+namespace Utilities {
+namespace Array {
+template <class T, class Size = unsigned int>
 class Array {
  public:
-  Array(T* data, size_t capacity) : data_(data), capacity_(capacity) {
+  Array(T* data, Size capacity) : data_(data), capacity_(capacity) {
     assert(data_);
     assert(capacity_ > 0);
   }
 
-  T& operator[](size_t index) {
+  T& operator[](Size index) {
     assert(index < capacity_);
     return data_[index];
   }
-  const T& operator[](size_t index) const {
+  const T& operator[](Size index) const {
     assert(index < capacity_);
     return data_[index];
   }
@@ -25,19 +29,21 @@ class Array {
    * If T is primitive but not floating point, or if value is zero, the
    * caller should probably use memset on the raw pointer instead
    */
-  void assign(size_t numElements, const T& value) {
+  void assign(Size numElements, const T& value) {
 #pragma vector always assert
-    for (size_t i = 0; i < numElements; ++i) {
+    for (Size i = 0; i < numElements; ++i) {
       data_[i] = value;
     }
   }
   void clear() { capacity_ = 0; }
 
-  size_t capacity() const { return capacity_; }
-  size_t size() const { return capacity_; }
-  size_t length() const { return capacity_; }
+  Size capacity() const { return capacity_; }
+  Size size() const { return capacity_; }
+  Size length() const { return capacity_; }
 
  private:
   T* data_;
-  size_t capacity_;
+  Size capacity_;
 };
+}
+}
