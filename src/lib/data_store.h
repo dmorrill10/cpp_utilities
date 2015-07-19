@@ -31,23 +31,24 @@ class Store {
     base_ = top_;
     top_ += blockSize_;
     ensureLargeEnough();
-    std::fill(&data_[base_], &data_[top], 0.0);
+    std::fill(&data_[base_], &data_[top_], 0.0);
   }
 
   void clear() {
     data_.clear();
     base_ = 0;
+    top_ = 0;
   }
   T* data(uint blockIndex) { return &data_[baseIndex(blockIndex)]; }
   const T* data(uint blockIndex) const { return &data_[baseIndex(blockIndex)]; }
 
-  T* back() { return data(base_); }
+  T* back() { return data(size() - 1); }
 
   uint blockSize() const { return blockSize_; }
 
   uint baseIndex(uint blockIndex) const { return blockIndex * blockSize_; }
 
-  uint size() const { return base_ / blockSize_; }
+  uint size() const { return top_ / blockSize_; }
 
  protected:
   void ensureLargeEnough() {
