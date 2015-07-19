@@ -27,7 +27,7 @@ class Store {
     std::copy(newData, newData + blockSize_, data_.begin() + base_);
   }
 
-  void push(size_t numElements) {
+  void push() {
     base_ = top_;
     top_ += blockSize_;
     ensureLargeEnough();
