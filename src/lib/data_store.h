@@ -19,16 +19,15 @@ class Store {
 
   void push(const T* newData) {
     const auto top = base_ + blockSize_;
-
-    if (data_.size() <= top) {
-      const auto& dataEnd = data_.end();
-
-      data_.insert(dataEnd,
-                   std::max(uint(2 * data_.size()), uint(top)) - data_.size(),
-                   0.0);
-    }
-
+    ensureLargeEnough(top);
     std::copy(newData, newData + blockSize_, data_.begin() + base_);
+    base_ = top;
+  }
+
+  void push(size_t numElements) {
+    const auto top = base_ + blockSize_;
+    ensureLargeEnough(top);
+    std::fill(&data_[base_], &data_[top], 0.0);
     base_ = top;
   }
 
@@ -44,6 +43,17 @@ class Store {
   uint baseIndex(uint blockIndex) const { return blockIndex * blockSize_; }
 
   uint size() const { return base_ / blockSize_; }
+
+ protected:
+  void ensureLargeEnough(uint top) {
+    if (data_.size() <= top) {
+      const auto& dataEnd = data_.end();
+
+      data_.insert(dataEnd,
+                   std::max(uint(2 * data_.size()), uint(top)) - data_.size(),
+                   0.0);
+    }
+  }
 
  protected:
   std::vector<T> data_;
