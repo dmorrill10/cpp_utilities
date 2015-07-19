@@ -43,6 +43,7 @@ class Store {
   const T* data(uint blockIndex) const { return &data_[baseIndex(blockIndex)]; }
 
   T* back() { return data(size() - 1); }
+  const T* back() const { return data(size() - 1); }
 
   uint blockSize() const { return blockSize_; }
 
