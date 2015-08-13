@@ -18,6 +18,11 @@ class Store {
         base_(0),
         top_(0),
         blockSize_(blockSize) {}
+  Store(const Store& from)
+      : data_(from.data_),
+        base_(from.base_),
+        top_(from.top_),
+        blockSize_(from.blockSize_) {}
   virtual ~Store() {}
 
   void push(const T* newData) {
@@ -62,7 +67,7 @@ class Store {
     }
   }
 
- protected:
+ private:
   std::vector<T> data_;
   uint base_;
   uint top_;
