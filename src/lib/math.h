@@ -18,14 +18,10 @@ static double median(const double* __restrict__ v,
                      size_t numElements,
                      size_t* __restrict__ indices = nullptr) {
   if (!indices) {
-    size_t newIndices[numElements];
-    for (size_t i = 0; i < numElements; ++i) {
-      newIndices[i] = i;
-    }
-    std::nth_element(
-        newIndices, newIndices + numElements / 2, newIndices + numElements,
-        [v](const size_t& a, const size_t& b) { return v[a] < v[b]; });
-    return v[newIndices[numElements / 2]];
+    double vCopy[numElements];
+    std::copy(v, v + numElements, vCopy);
+    std::nth_element(vCopy, vCopy + numElements / 2, vCopy + numElements);
+    return vCopy[numElements / 2];
   }
   std::nth_element(
       indices, indices + numElements / 2, indices + numElements,
