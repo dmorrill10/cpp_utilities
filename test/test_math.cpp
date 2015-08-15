@@ -11,6 +11,7 @@ SCENARIO("Median") {
     THEN("It returns the median") {
       CHECK(Utilities::Math::median(targets, numExamples) == 56);
       CHECK(Utilities::Math::median(targets, numExamples, indices) == 112);
+      CHECK(Utilities::Math::median(targets, 2) == ((28 + 56) / 2.0));
     }
   }
 }
