@@ -187,3 +187,6 @@ test: $(TEST_EXES)
 .PHONY: cleantest
 cleantest:
 	-rm -f $(TEST_SUPPORT_OBJ) $(TEST_OBJ) $(TEST_EXES)
+
+test-%: $(TEST_DIR)/$(TEST_PREFIX)%$(TEST_EXTENSION)
+	./$(TEST_DIR)/$(TEST_PREFIX)$*$(TEST_EXTENSION)
