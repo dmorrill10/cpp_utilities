@@ -119,6 +119,9 @@ INCLUDES +=$(SRC_INCLUDES)
 # Utilities
 #==========
 
+run-%: %
+	./$*
+
 # Clean
 #-------
 .PHONY: clean
