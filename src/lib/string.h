@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdio>
 #include <stdexcept>
+#include <functional>
 
 namespace Utilities {
 namespace String {
